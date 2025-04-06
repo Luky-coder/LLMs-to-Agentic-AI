@@ -2,13 +2,13 @@
 
 ## 🚀 Overview
 
-Welcome to **LLMs-to-Agentic-AI**, our innovative solution designed during the "From LLMs to Agentic AI" hackathon organized at ESSEC by Kryptosphere and Utopia. This project automates the creation and publication of high-quality videos tailored for businesses to effortlessly enhance their presence across social media platforms.
+Welcome to **LLMs-to-Agentic-AI**, our innovative solution designed during the "From LLMs to Agentic AI" hackathon organized at ESSEC by Kryptosphere and Utopia. This project automates the creation and publication of high-quality contents tailored for businesses to effortlessly enhance their presence across social media platforms.
 
 ---
 
 ## 🎯 Project Vision
 
-Creating engaging social media content regularly can be resource-intensive for companies. Our solution leverages powerful Large Language Models (LLMs) and advanced Agentic AI techniques to simplify video content production, making it efficient, scalable, and accessible to businesses of any size.
+Creating engaging social media content regularly can be resource-intensive for companies. Our solution leverages powerful Large Language Models (LLMs) and advanced Agentic AI techniques to simplify content production, making it efficient, scalable, and accessible to businesses of any size.
 
 ---
 
@@ -18,18 +18,18 @@ Our architecture is built for scalability, modularity, and ease of use, encompas
 
 ### Frontend
 - **React & TypeScript** for a responsive and dynamic UI
-- Simple interfaces for users to input video prompts, customize styles, and preview generated content
+- Simple interfaces for users to input prompts, pictures, customize styles.
 
 ### Backend
 - **Node.js & Express**: Manages data flows, handles API calls, and interacts seamlessly with AI services
 - Secure REST API endpoints
 
 ### AI Module
-- Utilizes **OpenAI's GPT Models** to transform prompts into detailed, contextually accurate video scripts
-- Employs **Agentic AI** logic to select relevant visuals, audio, and narration, fully automating video production
+- Utilizes **OpenAI's GPT Models** to transform prompts into detailed
+- Employs **Agentic AI** logic to select relevant visuals, audio, and narration, fully automating p generation production
 
 ### Cloud Storage and Hosting
-- **AWS S3** for storing prompts, images, and videos securely
+- **AWS S3** for storing prompts, metadatas and medias securely
 - **CloudFront** for efficient delivery of media assets globally
 - Managed via EC2 for streamlined cloud operations
 
@@ -54,21 +54,20 @@ Our architecture is built for scalability, modularity, and ease of use, encompas
 ## ⚙️ Implementation Details
 
 ### 1. User Inputs
-- Users submit prompts describing their desired video content through a simple React interface.
+- Users submit prompts describing their desired content through a simple React interface.
 
 ### 2. AI-driven Script Generation
 - Backend API calls OpenAI's GPT model to generate detailed scripts from prompts.
 
-### 3. Automated Video Creation
+### 3. Automated media Creation
 - Agentic AI selects visuals (stock footage, animations), background audio, and generates narration.
-- FFmpeg compiles these assets into cohesive videos.
 
 ### 4. Cloud-based Storage & Management
 - Generated content is stored securely in AWS S3 buckets.
 - Each upload is tagged with a unique, incrementing `id_media` for efficient asset management.
 
 ### 5. Automatic Social Media Posting
-- Integrated APIs for platforms like **TikTok and LinkedIn**, automating video posting along with relevant descriptions and hashtags.
+- Integrated APIs for platforms like **LinkedIn** (maybe more to come), automating media posting along with relevant descriptions and hashtags.
 
 ---
 
@@ -124,7 +123,7 @@ Lucas LOPES
 ## 🙌 Credits & Acknowledgments
 
 - **ESSEC, Kryptosphere, Utopia**: For organizing this inspiring hackathon
-- **OpenAI**: Providing powerful AI models enabling advanced video script generation
+- **OpenAI**: Providing powerful AI models enabling advanced prompt
 - **MistralAI**: Enhancing the model’s capabilities via Retrieval-Augmented Generation (RAG) for improved orchestration.
 - **AWS**: Robust cloud infrastructure
 
