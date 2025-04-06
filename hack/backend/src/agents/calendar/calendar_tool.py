@@ -48,6 +48,20 @@ class CalendarTool:
         return base_prompt + str(input_data)
 
     def run(self, input_data: dict) -> dict:
+
+        """
+        Generates a publication schedule for a list of ads using the language model.
+
+        Args:
+            input_data (dict): A dictionary containing campaign details (e.g., image prompts, captions, IDs, start/end dates).
+
+        Returns:
+            dict: A dictionary representing the generated schedule, where each item includes:
+                - "id_campaign": Campaign ID
+                - "id_publication": Publication ID (same as campaign ID)
+                - "datetime": Suggested posting datetime
+        """
+
         prompt = self.build_prompt(input_data)
         messages = [
             ("human", prompt),

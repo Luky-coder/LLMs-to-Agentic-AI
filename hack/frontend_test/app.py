@@ -1,21 +1,21 @@
 import streamlit as st
 import requests
 
-st.title("App Upload Text + Image")
+# App title
+st.title("Upload App - Text + Image")
 
-# Input texte
-text_input = st.text_input("Entrez un message :")
+# Text input field
+text_input = st.text_input("Enter a message:")
 
-# Input image
-image_file = st.file_uploader("Choisissez une image", type=["png", "jpg", "jpeg"])
+# Image file uploader
+image_file = st.file_uploader("Choose an image", type=["png", "jpg", "jpeg"])
 
-# Soumettre
-if st.button("Envoyer"):
+if st.button("Submit"):
+    """Handles the submission of the text and image to the backend API."""
 
     if not text_input or not image_file:
-        st.warning("Veuillez remplir le texte et choisir une image.")
+        st.warning("Please provide both text and an image.")
     else:
-        # Préparer les données
         files = {
             "image": (image_file.name, image_file, image_file.type),
         }
@@ -24,25 +24,23 @@ if st.button("Envoyer"):
         }
 
         try:
-            # ⚠️ Remplace l'URL par ton adresse réelle FastAPI
             response = requests.post("http://localhost:8080/upload", data=data, files=files)
 
             if response.status_code == 200:
-                st.success("Succès : " + response.text)
+                st.success("Success: " + response.text)
             else:
-                st.error(f"Erreur {response.status_code} : {response.text}")
+                st.error(f"Error {response.status_code}: {response.text}")
         except Exception as e:
-            st.error(f"Erreur de requête : {e}")
+            st.error(f"Request error: {e}")
 
-# Soumettre pour test GET
 if st.button("Test"):
+    """Tests the connection with the backend API."""
     try:
-        # ⚠️ Remplace l'URL par ton adresse réelle FastAPI
         response = requests.get("http://localhost:8000/")
 
         if response.status_code == 200:
-            st.success("Succès : " + response.text)
+            st.success("Success: " + response.text)
         else:
-            st.error(f"Erreur {response.status_code} : {response.text}")
+            st.error(f"Error {response.status_code}: {response.text}")
     except Exception as e:
-        st.error(f"Erreur de requête : {e}")
+        st.error(f"Request error: {e}")

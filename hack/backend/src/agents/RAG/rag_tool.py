@@ -11,12 +11,28 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class RAGTool:
+    """
+    A Retrieval-Augmented Generation (RAG) tool that uses text documents to enhance AI responses
+    by incorporating relevant context from a local directory.
+    """
 
     def __init__(self, db_path: str = "/app/src/context"):
+        """
+        Initializes the RAGTool by setting the API key and context directory.
+
+        Args:
+            db_path (str): Path to the directory containing .txt files used for context.
+        """
         self.api_key = os.getenv("MISTRAL_API_KEY")
         self.db_path = db_path
 
     def load_context(self):
+        """
+        Loads all `.txt` files from the context directory into a list of documents.
+
+        Returns:
+            list: A list of LangChain document objects loaded from the text files.
+        """
         docs = []
         for file_path in os.listdir(self.db_path):
             if file_path.endswith(".txt"):
@@ -25,6 +41,15 @@ class RAGTool:
         return docs
 
     def format_context(self, docs):
+        """
+        Splits documents into chunks, generates embeddings, and creates a retriever for similarity search.
+
+        Args:
+            docs (list): A list of documents to process.
+
+        Returns:
+            retriever: A FAISS retriever that allows searching for relevant context passages.
+        """
         text_splitter = RecursiveCharacterTextSplitter()
         documents = text_splitter.split_documents(docs)
         embeddings = MistralAIEmbeddings(model="mistral-embed", mistral_api_key=self.api_key)
@@ -34,6 +59,18 @@ class RAGTool:
         return retriever
 
     def run(self, usr_prompt):
+        """
+        Executes the RAG pipeline: loads documents, builds retriever, prompts the model, and returns a response.
+
+        The prompt instructs the model to generate creative advertising prompts and social media descriptions
+        based on retrieved context. It outputs JSON responses describing each publication.
+
+        Args:
+            usr_prompt (str): The user query or task to process with the help of retrieved context.
+
+        Returns:
+            str: The generated JSON-formatted response from the AI model.
+        """
         context = self.load_context()
         retriever = self.format_context(context)
         model = ChatMistralAI(mistral_api_key=self.api_key, model="mistral-large-latest")

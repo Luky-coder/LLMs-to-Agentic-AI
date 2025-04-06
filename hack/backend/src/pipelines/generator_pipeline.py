@@ -5,45 +5,83 @@ from agents.RAG.rag_tool import RAGTool
 from db.saver import PublicationSaver
 
 def run_calendar_tool(args):
+    """
+    Executes the CalendarTool to generate a publication calendar.
+
+    Args:
+        args (dict): A list of campaign items to schedule (each item includes image prompt, caption, dates, etc.).
+
+    Returns:
+        list: A list of publication entries, each containing:
+              - "id_campaign"
+              - "id_publication"
+              - "datetime"
+    """
     cal = CalendarTool()
     return cal.run(args)
 
 def run_static_post_tool(args, image):
+    """
+    Executes the PostTool to generate an advertising image based on input arguments and an image.
+
+    Args:
+        args (dict): Dictionary containing image_prompt, id_publication, etc.
+        image (str): Base64-encoded image of the product.
+
+    Returns:
+        dict: The updated publication dictionary with the generated image.
+    """
     args["image"] = image
     post_tool = PostTool()
     return post_tool.run(args)
 
 def run_pipeline(prompt: str, image: str):
+    """
+    Runs the full content generation pipeline, from prompt to publication saving.
+
+    Steps:
+    1. Uses the RAGTool to augment the prompt using contextual documents.
+    2. Generates a publication plan using the Orchestrator.
+    3. Schedules posts using CalendarTool.
+    4. Creates visuals using PostTool.
+    5. Combines and saves final publication data into the database.
+
+    Args:
+        prompt (str): A user-provided prompt describing the campaign idea.
+        image (str): A base64-encoded image of the product to be used in generated visuals.
+
+    Returns:
+        int: Always returns 0 after successful execution.
+    """
     
     saver = PublicationSaver()
-    # Exécution de l'outil RAG pour obtenir un prompt augmenté
     rag_tool = RAGTool()
     aug_prompt = rag_tool.run(prompt)
     
-    # Planification des étapes à suivre
+
     orchestrator = Orchestrator()
     plan = orchestrator.plan(aug_prompt)
 
-    # Listes pour stocker les résultats
+
     edito_cal = []
     publications = []
 
-    # Exécution des outils de manière synchrone
+
     print(plan)
     for step in plan:
         tool_name = step["tool"]
         args = step["args"]
 
         if tool_name == "calendar":
-            # Exécute l'outil Calendar et récupère le résultat
+
             edito_cal = run_calendar_tool(args)
 
         elif tool_name == "static_post":
-            # Exécute l'outil Static Post et récupère le résultat
+
             post = run_static_post_tool(args, image)
             publications.append(post)
 
-    # Attribution des dates de publication en fonction de l'éditeur de calendrier
+
     for post in publications:
         post_id = post.get("id_publication")
         publication_date = next(

@@ -11,13 +11,29 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class PostTool:
+    """
+    A tool that generates professional advertising visuals using a base product image and descriptive prompt,
+    leveraging Google's Gemini image generation model.
+    """
     def __init__(self):
+        """
+        Initializes the PostTool by setting the model name and loading the Gemini API key from environment variables.
+        """
         self.name = "image_generation"
         self.api_key = os.getenv("GEMINI_KEY")
         self.client = genai.Client(api_key=self.api_key)
 
     def save_image(self, img, id):
-        """Enregistre l'image générée sous un nom de fichier fixe."""
+        """
+        Saves the generated image to disk using a specified publication ID.
+
+        Args:
+            img (PIL.Image.Image): The image to be saved.
+            id (str): The publication ID to use as the filename.
+
+        Returns:
+            None
+        """
         image_path = f"{id}.png"
         buffered = BytesIO()
         img.save(buffered, format="PNG")
@@ -26,6 +42,21 @@ class PostTool:
         print(f"Image saved as {image_path}")
 
     def run(self, input_data: dict) -> dict:
+        """
+        Generates a high-quality advertising image from a base64-encoded input image and a descriptive image prompt.
+
+        The tool sends the prompt and image to the Gemini model for image generation, saves the result locally,
+        and returns the updated input data with the new base64-encoded image.
+
+        Args:
+            input_data (dict): A dictionary containing:
+                - "image" (str): Base64-encoded original product image.
+                - "id_publication" (str): Unique identifier for the publication.
+                - "image_prompt" (str): Text describing the product and the visual context to generate.
+
+        Returns:
+            dict: The input data dictionary updated with the generated image (base64-encoded).
+        """
         output_data = input_data
         image_base64 = input_data.get("image")
         id_p = input_data.get("id_publication")

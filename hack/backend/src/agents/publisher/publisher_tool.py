@@ -9,12 +9,37 @@ load_dotenv()
 
 
 class Publisher:
+    """
+    A class responsible for uploading and publishing image posts to LinkedIn using LinkedIn's API.
+    """
     def __init__(self):
+        """
+        Initializes the Publisher by loading required environment variables for LinkedIn API access.
+        """
         self.ACCESS_TOKEN = os.getenv("LK_TOKEN")
         self.PERSON_URN = os.getenv("LK_URN")
         self.URL = os.getenv("LK_URL")
 
     def run(self, input_data) -> dict:
+
+        """
+        Processes a list of post dictionaries, uploads images to LinkedIn, and publishes them as posts.
+
+        Each post in `input_data` must contain a base64-encoded image. The function:
+        1. Registers the upload with LinkedIn.
+        2. Uploads the image to LinkedIn using the returned URL.
+        3. Creates a post using the uploaded image.
+
+        Note:
+            This method assumes a `CAPTION` attribute exists on `self`, but it's missing from __init__.
+            Make sure to set `self.CAPTION` before calling this method.
+
+        Args:
+            input_data (list): A list of dictionaries, each containing at least a base64-encoded image string under the "image" key.
+
+        Returns:
+            dict: Not explicitly returned, but prints the LinkedIn post response status and message for each publication.
+        """
 
         for postlk in input_data:
             headers = {"Authorization": f"Bearer {self.ACCESS_TOKEN}"}
@@ -47,7 +72,7 @@ class Publisher:
             image_bytes = base64.b64decode(image, validate=True)
             upload_image = requests.put(upload_url, headers=headers, data=image_bytes)
 
-            # === ÉTAPE 3 : Poster l'image sur LinkedIn ===
+
             post_url = "https://api.linkedin.com/v2/ugcPosts"
 
             post_data = {

@@ -12,6 +12,9 @@ from dotenv import load_dotenv
 
 class Orchestrator:
     def __init__(self):
+        """
+        Initializes the Orchestrator by loading environment variables and setting up the language model and prompt.
+        """
         load_dotenv() 
         self.llm = ChatMistralAI(
             model="mistral-large-latest",
@@ -45,6 +48,23 @@ class Orchestrator:
         )
 
     def plan(self, task: str) -> list:
+
+        """
+        Generates a structured plan of steps for a social media campaign based on input content.
+
+        The function uses a language model to analyze the task description and returns a sequence
+        of actions (steps), such as scheduling posts and generating static content. It also injects
+        unique identifiers into the plan for consistency across tools.
+
+        Args:
+            task (str): A textual description of the campaign content and goals.
+
+        Returns:
+            list: A list of step dictionaries. Each step contains:
+                - "tool": Name of the tool to be used (e.g., "calendar", "static_post").
+                - "args": Parameters required by the tool (e.g., prompt, caption, dates).
+        """
+
         print("TASK", task)
         plan = self.llm_chain.run(mission=task)
         try:
