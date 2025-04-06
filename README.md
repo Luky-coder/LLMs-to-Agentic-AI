@@ -113,10 +113,10 @@ Open your browser at http://localhost:3000
 
 Thanks to :
 
-Grégoire WORONIAK
-Lucas BARREZ
-Nicolas RENOIR
-Lucas LOPES
+- Grégoire WORONIAK
+- Lucas BARREZ
+- Nicolas RENOIR
+- Lucas LOPES
 
 ---
 
