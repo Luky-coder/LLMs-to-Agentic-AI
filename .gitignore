@@ -1,0 +1,4 @@
+$.pycs
+binlog.*
+*.pem
+*.env
