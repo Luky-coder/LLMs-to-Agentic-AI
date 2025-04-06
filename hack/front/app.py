@@ -25,7 +25,7 @@ if st.button("Envoyer"):
 
         try:
             # ⚠️ Remplace l'URL par ton adresse réelle FastAPI
-            response = requests.post("http://localhost:8080/upload", data=data, files=files)
+            response = requests.post("http://pipeline:8080/upload", data=data, files=files)
 
             if response.status_code == 200:
                 st.success("Succès : " + response.text)
@@ -38,7 +38,7 @@ if st.button("Envoyer"):
 if st.button("Test"):
     try:
         # ⚠️ Remplace l'URL par ton adresse réelle FastAPI
-        response = requests.get("http://localhost:8000/")
+        response = requests.get("http://pipeline:8000/")
 
         if response.status_code == 200:
             st.success("Succès : " + response.text)
