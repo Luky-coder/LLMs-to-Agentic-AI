@@ -19,6 +19,7 @@ Our architecture is built for scalability, modularity, and ease of use, encompas
 ### Frontend
 - **React & TypeScript** for a responsive and dynamic UI
 - Simple interfaces for users to input prompts, pictures, customize styles.
+- Use of TailAdmin 
 
 ### Backend
 - **Node.js & Express**: Manages data flows, handles API calls, and interacts seamlessly with AI services
