@@ -49,6 +49,25 @@ services:
       DB_PASSWORD: mypassword
     volumes:
       - ./backend/:/app
+  
+
+  front:
+    build: ./front/
+    container_name: streamlit_front
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+      - pipeline
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: mydatabase
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+    volumes:
+      - ./front/:/app
 
 volumes:
   mysql_data:

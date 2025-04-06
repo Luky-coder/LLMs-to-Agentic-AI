@@ -3,6 +3,7 @@ from agents.calendar.calendar_tool import CalendarTool
 from agents.static_post.post_tool import PostTool
 from agents.RAG.rag_tool import RAGTool
 from db.saver import PublicationSaver
+from agents.publisher.publisher_tool import Publisher
 
 def run_calendar_tool(args):
     """
@@ -55,32 +56,28 @@ def run_pipeline(prompt: str, image: str):
     """
     
     saver = PublicationSaver()
+    publisher = Publisher()
+
     rag_tool = RAGTool()
     aug_prompt = rag_tool.run(prompt)
     
-
     orchestrator = Orchestrator()
     plan = orchestrator.plan(aug_prompt)
-
 
     edito_cal = []
     publications = []
 
 
-    print(plan)
     for step in plan:
         tool_name = step["tool"]
         args = step["args"]
 
         if tool_name == "calendar":
-
             edito_cal = run_calendar_tool(args)
 
         elif tool_name == "static_post":
-
             post = run_static_post_tool(args, image)
             publications.append(post)
-
 
     for post in publications:
         post_id = post.get("id_publication")
@@ -94,8 +91,7 @@ def run_pipeline(prompt: str, image: str):
         print("POST", post)
         saver.save_publication(post)
         print("SAVED")
-    
-    
+        publisher.run(post)
     
     saver.close()
     
